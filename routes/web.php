@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolesController;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rutas de Usuario
+Route::get("/api/users",[UserController::class,"index"]);
+Route::get("/api/user/{id}",[UserController::class,"show"]);
+Route::post("/api/save-user",[UserController::class,"store"]);
+Route::delete("/api/delete-user/{id}",[UserController::class,"destroy"]);
+
+//Rutas de roles
+Route::get("/api/roles-users",[RolesController::class,"index"]);
