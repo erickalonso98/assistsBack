@@ -24,7 +24,9 @@ Route::get('/', function () {
 Route::get("/api/users",[UserController::class,"index"]);
 Route::get("/api/user/{id}",[UserController::class,"show"]);
 Route::post("/api/save-user",[UserController::class,"store"]);
+Route::post("/api/login/",[UserController::class,"login"]);
 Route::delete("/api/delete-user/{id}",[UserController::class,"destroy"]);
 
 //Rutas de roles
 Route::get("/api/roles-users",[RolesController::class,"index"]);
+

@@ -7,10 +7,9 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
-
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
-use App\Models\Role;
+
 
 class UserController extends Controller
 {
@@ -33,7 +32,7 @@ class UserController extends Controller
             $data = [
                 "status" => "success",
                 "code"   => 200,
-                "user"   => $user
+                "user"   => $user,
             ];
 
         }else{
@@ -76,11 +75,14 @@ class UserController extends Controller
             //$roles = Role::find($request->roles);
             $user->roles()->attach($request->roles);
 
+            $token = JWTAuth::fromUser($user);
+
             $data = [
                 "status"  => "success",
                 "code"    => 200,
                 "message" => "Usuario creado con exito!!",
-                "user"    => $user
+                "user"    => $user,
+                "token"   => $token
              ];
         }
 
@@ -115,4 +117,5 @@ class UserController extends Controller
 
         return response()->json($data,$data['code']);
     }
+
 }
