@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -9,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -51,7 +53,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             "name"     => "required",
             "surnames" => "required",
-            "email"    => "required",
+            "email"    => "required|email",
             "password" => "required"
         ]);
 
@@ -91,6 +93,23 @@ class UserController extends Controller
 
     public function update(Request $request, $id){
         
+    }
+
+    public function login(LoginRequest $request){
+        
+        $credentials = $request->only('email','password');
+
+        try{
+            if(!$token = JWTAuth::attempt($credentials)){
+                return response()->json(["message" => "Error de Autenticacion"],400);
+            }
+        }catch(JWTException $e){
+            return response()->json(["error" => $e->getMessage()],500);
+        }
+
+        $identity = auth()->user();
+
+        return response()->json(compact('token','identity'));
     }
 
     public function destroy($id){
