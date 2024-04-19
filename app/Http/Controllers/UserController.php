@@ -12,6 +12,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -137,4 +139,49 @@ class UserController extends Controller
         return response()->json($data,$data['code']);
     }
 
+    public function upload(Request $request){
+        $image = $request->file("file");
+
+        $validator = Validator::make($request->all(),[
+            "file" => "required|image|mimes:jpg,png,jpeg,gif"
+        ]);
+
+        if(!$image || $validator->fails()){
+            $data = [
+                "status"  => "error",
+                "code"    => 400,
+                "message" => "error al subir la imagen"
+           ];
+        }else{
+
+           $image_name = time().$image->getClientOriginalName();
+           Storage::disk('users')->put($image_name,File::get($image));
+
+           $data = [
+                "status" => "success",
+                "code"   => 200,
+                "image"  => $image_name
+           ];
+        }
+
+        return response()->json($data,$data['code']);
+    }
+
+    public function getImage($filename){
+
+        $isset = Storage::disk("users")->exists($filename);
+
+        if($isset){
+            $file = Storage::disk('users')->get($filename);
+            return new Response($file,200);
+        }else{
+            $data = [
+                "status"  => "error",
+                "code"    => 404,
+                "message" => "error no se encuentra la imagen"
+           ];
+        }
+
+        return response()->json($data,$data['code']);
+    }
 }

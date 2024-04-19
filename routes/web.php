@@ -28,6 +28,8 @@ Route::middleware("api.auth")->group(function(){
     Route::get("/api/users",[UserController::class,"index"]);
     Route::get("/api/user/{id}",[UserController::class,"show"]);
     Route::delete("/api/delete-user/{id}",[UserController::class,"destroy"]);
+    Route::post("/api/user/upload",[UserController::class,"upload"]);
+    Route::get("/api/user/avatar/{filename}",[UserController::class,"getImage"]);
 
     //Rutas de roles
     Route::get("/api/roles-users",[RolesController::class,"index"]);
