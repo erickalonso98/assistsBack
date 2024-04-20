@@ -30,6 +30,7 @@ Route::middleware("api.auth")->group(function(){
     Route::delete("/api/delete-user/{id}",[UserController::class,"destroy"]);
     Route::post("/api/user/upload",[UserController::class,"upload"]);
     Route::get("/api/user/avatar/{filename}",[UserController::class,"getImage"]);
+    Route::put("/api/modify-user/{id}",[UserController::class,"update"]);
 
     //Rutas de roles
     Route::get("/api/roles-users",[RolesController::class,"index"]);

@@ -94,7 +94,53 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
-        
+        try{
+            $user = JWTAuth::authenticate($request->bearerToken());
+        }catch(JWTException $e){
+            $data = [
+                "status"  => "error",
+                "code"    => 401,
+                "message" => "Token invalido"
+            ];
+        }
+
+        if(!$user){
+            $data = [
+                "status"  => "error",
+                "code"    => 404,
+                "message" => "usuario no encontrado"
+            ];
+        }
+
+        $validator = Validator::make($request->all(),[
+            "name"     => "required",
+            "surnames" => "required",
+            "email"    => "required|email",
+            "password" => "required"
+        ]);
+
+        if($validator->fails()){
+            $data = [
+                "status"  => "error",
+                "code"    => 400,
+                "message" => "Faltan campos por rellenar".$validator->errors()
+            ];
+        }else{
+            $user->name = $request->input("name");
+            $user->surnames = $request->input("surnames");
+            $user->email = $request->input("email");
+            $pwd = Hash::make($request->input("password"));
+            $user->password = $pwd;
+
+            $data = [
+                "status"  => "success",
+                "code"    => 200,
+                "message" => "Usuario actualizado con exito!!",
+                "user"    => $user,
+            ];
+        }
+
+        return response()->json($data,$data['code']);
     }
 
     public function login(LoginRequest $request){
