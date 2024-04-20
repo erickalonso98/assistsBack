@@ -132,6 +132,8 @@ class UserController extends Controller
             $pwd = Hash::make($request->input("password"));
             $user->password = $pwd;
 
+            $user->save();
+
             $data = [
                 "status"  => "success",
                 "code"    => 200,
