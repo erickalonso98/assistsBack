@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use App\Models\Role;
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -64,4 +66,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(){
         return [];
     }
+
+    /*
+        TODO: por el momento no se usara
+    public function hasRole($role){
+        return $this->roles()->where('name',$role)->exists();
+    }
+
+    public function hasPermission($permission){
+        return $this->roles->flatMap->permissions->pluck('name')->contains($permission);
+    }
+    */
 }

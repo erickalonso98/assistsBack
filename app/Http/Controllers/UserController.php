@@ -78,6 +78,7 @@ class UserController extends Controller
 
             //$roles = Role::find($request->roles);
             $user->roles()->attach($request->roles);
+            //$user->permission()->attach($request->permission);
 
             $token = JWTAuth::fromUser($user);
 
