@@ -54,9 +54,10 @@ class RolesController extends Controller
             $role = new Role();
 
             $role->name = $request->name;
-            $role->permissions()->attach($request->permissions);
-
+            
             $role->save();
+
+            $role->permissions()->attach($request->permissions);
 
             $data = [
                 "status"  => "success",

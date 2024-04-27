@@ -170,6 +170,8 @@ class UserController extends Controller
 
             $user->delete();
 
+            //$user->roles()->detach();
+
             $data = [
                 "status"  => "success",
                 "code"    => 200,
