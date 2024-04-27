@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,13 +35,18 @@ Route::middleware("api.auth")->group(function(){
     Route::put("/api/modify-user/{id}",[UserController::class,"update"]);
 
     // * Rutas de roles
-    Route::get("/api/roles-users",[RolesController::class,"index"]);
-    Route::get("/api/role-user/{id}",[RolesController::class,"show"]);
+    Route::get("/api/roles",[RolesController::class,"index"]);
+    Route::get("/api/role/{id}",[RolesController::class,"show"]);
     Route::post("/api/register-roles",[RolesController::class,"store"]);
     Route::put("/api/modify-role/{id}",[RolesController::class,"update"]);
     Route::delete("/api/delete-role/{id}",[RolesController::class,"destroy"]);
 
     //* Rutas de Permisos
+    Route::get("/api/permissions",[PermissionController::class,"index"]);
+    Route::get("/api/permission/{id}",[PermissionController::class,"show"]);
+    Route::post("/api/register-permission",[PermissionController::class,"store"]);
+    Route::put("/api/modify-permission/{id}",[PermissionController::class,"update"]);
+    Route::delete("/api/delete-permission/{id}",[PermissionController::class,"destroy"]);
 });
 
 

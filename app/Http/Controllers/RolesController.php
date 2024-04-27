@@ -48,12 +48,13 @@ class RolesController extends Controller
             $data = [
                 "status"  => "error",
                 "code"    => 404,
-                "message" => "El nombre del rol es requerido"
+                "message" => "El rol es requerido"
             ];
         }else{
             $role = new Role();
 
             $role->name = $request->name;
+            $role->permissions()->attach($request->permissions);
 
             $role->save();
 
