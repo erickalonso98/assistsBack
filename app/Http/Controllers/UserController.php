@@ -159,8 +159,9 @@ class UserController extends Controller
         }
 
         $identity = auth()->user();
+        $roles = auth()->user()->roles;
 
-        return response()->json(compact('token','identity'));
+        return response()->json(compact('token','identity','roles'));
     }
 
     public function destroy($id){
