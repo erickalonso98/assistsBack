@@ -19,7 +19,8 @@ return new class extends Migration
 
             $table->foreign('municipalitie_id')
                   ->references('id')
-                  ->on('municipalities');
+                  ->on('municipalities')
+                  ->onDelete('cascade');
 
         });
     }

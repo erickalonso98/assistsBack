@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\StateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,6 +48,14 @@ Route::middleware("api.auth")->group(function(){
     Route::post("/api/register-permission",[PermissionController::class,"store"]);
     Route::put("/api/modify-permission/{id}",[PermissionController::class,"update"]);
     Route::delete("/api/delete-permission/{id}",[PermissionController::class,"destroy"]);
+
+    //* Rutas de Estados
+
+    Route::get("/api/states",[StateController::class,"index"]);
+    Route::get("/api/state/{id}",[StateController::class,"show"]);
+    Route::post("/api/register-state/",[StateController::class,"store"]);
+    Route::put("/api/modify-state/{id}",[StateController::class,"update"]);
+    Route::delete("/api/delete-state/{id}",[StateController::class,"destroy"]);
 });
 
 
